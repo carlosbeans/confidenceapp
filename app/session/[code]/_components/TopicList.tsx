@@ -37,10 +37,18 @@ export function TopicList({ activeTopic, onSelectTopic }: TopicListProps) {
       {session.topics.map((topic) => {
         const isActive = activeTopic?.id === topic.id;
         return (
-          <button
+          <div
             key={topic.id}
+            role="button"
+            tabIndex={0}
             onClick={() => onSelectTopic(topic)}
-            className={`w-full rounded-lg border px-4 py-3 text-left transition-all ${
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onSelectTopic(topic);
+              }
+            }}
+            className={`w-full cursor-pointer rounded-lg border px-4 py-3 text-left transition-all ${
               isActive
                 ? "border-accent bg-accent/5 ring-1 ring-accent/20"
                 : "border-border bg-card hover:bg-muted"
@@ -76,7 +84,7 @@ export function TopicList({ activeTopic, onSelectTopic }: TopicListProps) {
                 )}
               </div>
             </div>
-          </button>
+          </div>
         );
       })}
       {session.topics.length === 0 && (

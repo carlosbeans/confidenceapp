@@ -34,7 +34,7 @@ export default function SessionPage({ params }: PageProps) {
   }
 
   if (!hasToken) {
-    return <JoinGate code={code} />;
+    return <JoinGate code={code} onJoined={() => setHasToken(true)} />;
   }
 
   return (

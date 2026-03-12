@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { joinSession } from "@/lib/actions";
 
 interface JoinGateProps {
   code: string;
+  onJoined: () => void;
 }
 
 function getSavedSessions() {
@@ -16,8 +16,7 @@ function getSavedSessions() {
   }
 }
 
-export function JoinGate({ code }: JoinGateProps) {
-  const router = useRouter();
+export function JoinGate({ code, onJoined }: JoinGateProps) {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,7 +45,7 @@ export function JoinGate({ code }: JoinGateProps) {
         joinedAt: new Date().toISOString(),
       });
       localStorage.setItem("confidence-sessions", JSON.stringify(sessions));
-      router.refresh();
+      onJoined();
     } catch {
       setError("Failed to join. Please try again.");
       setLoading(false);
